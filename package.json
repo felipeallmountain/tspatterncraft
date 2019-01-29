@@ -1,0 +1,23 @@
+{
+  "name": "jlpatterncraft",
+  "version": "1.0.0",
+  "description": "John Lindquist's design patterns based on Starcraft (TS version)",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --mode development"
+  },
+  "author": "Felipe Vega",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/gsap": "^1.20.0",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.2.4",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "dependencies": {
+    "gsap": "^2.0.2",
+    "animejs": "^3.0.1"
+  }
+}
