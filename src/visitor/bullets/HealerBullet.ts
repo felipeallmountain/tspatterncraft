@@ -9,7 +9,7 @@ export default class HealerBullet extends Bullet implements IBullet {
 
   protected setBulletStyles(): void {
     super.setBulletStyles()
-    this.bulletElement.style.background = 'orange'
+    this.style.background = 'orange'
   }
 
   public visitLight(light: LightUnit): void {
@@ -20,3 +20,5 @@ export default class HealerBullet extends Bullet implements IBullet {
     armored.hitPoints += this.armoredHeal
   }
 }
+
+customElements.define('healer-bullet', HealerBullet)

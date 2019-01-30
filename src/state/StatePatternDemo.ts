@@ -21,7 +21,7 @@ export default class StatePatternDemo implements IPattern {
 
   private createSiegeTank() {
     this.siegeTank = new SiegeTank()
-    this.appContainer.append(this.siegeTank.tankElement)
+    this.appContainer.append(this.siegeTank)
   }
 
   private onKeyUp(evt: KeyboardEvent): void {

@@ -28,7 +28,7 @@ export default class FlyState implements ITankState {
 
   public move(x: number, y: number): void {
     anime({
-      targets: this.siegeTank.tankElement,
+      targets: this.siegeTank,
       translateX: x,
       translateY: y,
       duration: 250,
@@ -36,7 +36,7 @@ export default class FlyState implements ITankState {
       rotate: '1turn',
       complete: () => {
         anime.set(
-          this.siegeTank.tankElement,
+          this.siegeTank,
           {
             rotate: 0
           }

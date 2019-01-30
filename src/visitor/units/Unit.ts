@@ -1,5 +1,4 @@
-export default class Unit {
-  public unitElement
+export default class Unit extends HTMLElement {
   private healthText
   private isAlive = true
 
@@ -31,19 +30,19 @@ export default class Unit {
   }
 
   constructor(x: number, y: number) {
-    this.unitElement = document.createElement('div')
-    this.unitElement.unitType = this
-    this.unitElement.style.transform = `translate(${x}px, ${y}px)`
+    super()
+    this.style.transform = `translate(${x}px, ${y}px)`
 
     this.healthText = document.createElement('p')
     this.setUnitStyles()
-    this.unitElement.append(this.healthText)
+    this.append(this.healthText)
   }
 
   protected setUnitStyles(): void {
-    this.unitElement.style.width = '30px'
-    this.unitElement.style.height = '30px'
-    this.unitElement.style.position = 'absolute'
+    this.style.direction = 'block'
+    this.style.width = '30px'
+    this.style.height = '30px'
+    this.style.position = 'absolute'
     this.healthText.style.userSelect = 'none'
     this.healthText.style.pointerEvents = 'none'
     this.healthText.style.width = '70px'
@@ -60,3 +59,5 @@ export default class Unit {
     }
   }
 }
+
+customElements.define('unit-element', Unit)

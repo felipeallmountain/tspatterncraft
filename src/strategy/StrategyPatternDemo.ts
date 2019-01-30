@@ -1,5 +1,5 @@
 import IPattern from '../IPattern';
-import Viking from './sc2vehicles/Viking';
+import Viking from './vehicle/Viking';
 import Fly from './vehicle/moves/Fly';
 import Walk from './vehicle/moves/Walk';
 import Swim from './vehicle/moves/Swim';
@@ -7,11 +7,10 @@ import Teleport from './vehicle/moves/Teleport';
 
 export default class StrategyPatternDemo implements IPattern {
   private appContainer: HTMLElement
+  private viking: Viking
 
-  private sc2Vehicle: Viking
-
-  private onMouseDownHandler
-  private onKeyUpHandler
+  private onMouseDownHandler: any
+  private onKeyUpHandler: any
 
   constructor(appContainer: HTMLElement) {
     this.appContainer = appContainer
@@ -25,25 +24,25 @@ export default class StrategyPatternDemo implements IPattern {
   }
 
   private createVehicle() {
-    this.sc2Vehicle = new Viking()
-    this.sc2Vehicle.moveBehavior = new Fly()
-    this.appContainer.append(this.sc2Vehicle.vehicleElement)
+    this.viking = new Viking()
+    this.viking.moveBehavior = new Fly()
+    this.appContainer.append(this.viking)
   }
 
   private onKeyUp(evt: KeyboardEvent): void {
     const { keyCode } = evt
     switch (keyCode) {
       case 49:
-        this.sc2Vehicle.moveBehavior = new Fly()
+        this.viking.moveBehavior = new Fly()
         break
       case 50:
-        this.sc2Vehicle.moveBehavior = new Walk()
+        this.viking.moveBehavior = new Walk()
         break
       case 51:
-        this.sc2Vehicle.moveBehavior = new Swim()
+        this.viking.moveBehavior = new Swim()
         break
       case 52:
-        this.sc2Vehicle.moveBehavior = new Teleport()
+        this.viking.moveBehavior = new Teleport()
         break
     }
   }
@@ -53,7 +52,7 @@ export default class StrategyPatternDemo implements IPattern {
     const tweenVars: any = {
       x: pageX, y: pageY
     }
-    this.sc2Vehicle.move(tweenVars)
+    this.viking.move(tweenVars)
   }
 
   public removeEventListeners(): void {
