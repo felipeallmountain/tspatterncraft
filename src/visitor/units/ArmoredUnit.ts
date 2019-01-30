@@ -8,15 +8,16 @@ export default class ArmoredUnit extends Unit implements IUnit {
   
   constructor(x: number, y: number) {
     super(x, y)
-    this.setHitpointsLabel()
+    // this.setHitpointsLabel()
   }
 
   protected setUnitStyles() {
     super.setUnitStyles()
-    this.unitElement.style.background = '#ff0000'
+    this.style.background = '#ff0000'
   }
 
   public accept(bullet: IBullet): void {
     bullet.visitArmored(this)
   }
 }
+customElements.define('armored-unit', ArmoredUnit)

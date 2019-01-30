@@ -6,11 +6,12 @@ import IBullet from './bullets/IBullet';
 import TankBullet from './bullets/TankBullet';
 import HealerBullet from './bullets/HealerBullet';
 import { TweenLite } from 'gsap';
+import Unit from './units/Unit';
 export default class VisitorPatternDemo implements IPattern {
   private appContainer: HTMLElement
 
   private isTankBullet = true
-  private fieldUnits: IUnit[] = []
+  private fieldUnits: Unit[] = []
   private readonly pairs = 7
 
   private onKeyUpHandler
@@ -34,16 +35,16 @@ export default class VisitorPatternDemo implements IPattern {
       // create light armor units
       const xRandomArmored = Math.random() * (window.innerWidth - offset)
       const yRandomArmored = Math.random() * (window.innerHeight - offset)
-      const armored: IUnit = new ArmoredUnit(xRandomArmored, yRandomArmored)
-      this.appContainer.append(armored.unitElement)
-      armored.unitElement.addEventListener('click', this.onUnitClickHandler)
+      const armored: ArmoredUnit = new ArmoredUnit(xRandomArmored, yRandomArmored)
+      this.appContainer.append(armored)
+      armored.addEventListener('click', this.onUnitClickHandler)
 
       // create armored units
       const xRandomLight = Math.random() * (window.innerWidth - offset)
       const yRandomLight = Math.random() * (window.innerHeight - offset)
-      const light: IUnit = new LightUnit(xRandomLight, yRandomLight)
-      this.appContainer.append(light.unitElement)
-      light.unitElement.addEventListener('click', this.onUnitClickHandler)
+      const light: LightUnit = new LightUnit(xRandomLight, yRandomLight)
+      this.appContainer.append(light)
+      light.addEventListener('click', this.onUnitClickHandler)
 
       this.fieldUnits = [...this.fieldUnits, armored, light]
     }    
@@ -54,12 +55,6 @@ export default class VisitorPatternDemo implements IPattern {
     const { keyCode } = event
     
     switch(keyCode) {
-      case 13: // ENTER
-        this.killEmAll(false)
-      break;
-      case 32: // SPACEBAR
-        this.killEmAll()
-      break
       case 49: // 1
         this.isTankBullet = true
       break
@@ -73,14 +68,14 @@ export default class VisitorPatternDemo implements IPattern {
     const { pageX, pageY, target } = event
 
     // TO-DO: REMEMBER STATE PATTERN!!
-    const bullet: IBullet = this.isTankBullet
+    const bullet = this.isTankBullet
       ? new TankBullet()
       : new HealerBullet()
 
     const speed = this.isTankBullet ? 0.2 : 1
 
-    this.appContainer.append(bullet.bulletElement)
-    TweenLite.to(bullet.bulletElement, speed, {
+    this.appContainer.append(bullet)
+    TweenLite.to(bullet, speed, {
       x: pageX,
       y: pageY,
       onComplete: this.onInfantryHit,
@@ -89,20 +84,8 @@ export default class VisitorPatternDemo implements IPattern {
   }
 
   private onInfantryHit(infantryUnit: any, bullet: IBullet): void {
-    infantryUnit.unitType.accept(bullet)
-    TweenLite.to(bullet.bulletElement, 0.3, {autoAlpha: 0, scale: 2})
-  }
-
-  // KILL'EM ALL MOTHERFUCKER!!!
-  private killEmAll(kill = true): void {
-    let i: number
-    const limit = this.fieldUnits.length
-    for (i = 0; i < limit; i++) {
-      const unit = this.fieldUnits[i]
-      // TO-DO: REMEMBER STATE PATTERN!!
-      const bullet = kill ? new TankBullet() : new HealerBullet()
-      unit.accept(bullet)
-    }
+    infantryUnit.accept(bullet)
+    TweenLite.to(bullet, 0.3, {autoAlpha: 0, scale: 2})
   }
 
   public removeEventListeners(): void {
@@ -111,7 +94,7 @@ export default class VisitorPatternDemo implements IPattern {
     const limit = this.fieldUnits.length
     for (i = 0; i < limit; i++) {
       const unit = this.fieldUnits[i]
-      unit.unitElement.removeEventListener('click', this.onUnitClickHandler)
+      unit.removeEventListener('click', this.onUnitClickHandler)
     }
   }
 }

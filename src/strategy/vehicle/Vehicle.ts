@@ -1,21 +1,15 @@
 import IMoveVehicleBehavior from './moves/IMoveVehicleBehavior';
 
-export default class Vehicle {
-  private _vehicleElement
-  public get vehicleElement() {
-    return this._vehicleElement
-  }
-  public set vehicleElement(value) {
-    this._vehicleElement = value
-  }
-
+export default class Vehicle extends HTMLElement {
   public moveBehavior: IMoveVehicleBehavior
 
   constructor() {
-    this.vehicleElement = document.createElement('div')
+    super()
+    this.style.display = 'block'
   }
 
   public move(tweenVars: {x: number, y: number}): void {
-    this.moveBehavior.move(this.vehicleElement, tweenVars)
+    this.moveBehavior.move(this, tweenVars)
   }
 }
+customElements.define('vehicle-element', Vehicle)

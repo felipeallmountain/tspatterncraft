@@ -5,15 +5,7 @@ import TankState from './states/TankState';
 import SiegeState from './states/SiegeState';
 import FlyState from './states/FlyState';
 
-export default class SiegeTank {
-
-  private _tankElement
-  public get tankElement() {
-    return this._tankElement
-  }
-  public set tankElement(value) {
-    this._tankElement = value
-  }
+export default class SiegeTank extends HTMLDivElement {
 
   private _state: ITankState
   public get state(): ITankState {
@@ -24,21 +16,21 @@ export default class SiegeTank {
     this.applyState()
   }
 
-  public tankModeText
-  public attackText
+  public tankModeText: HTMLParagraphElement
+  public attackText: HTMLParagraphElement
 
   public tankState: TankState
   public siegeState: SiegeState
   public flyState: FlyState
 
   constructor() {
-    this.tankElement = document.createElement('div')
+    super()
 
     this.tankModeText = document.createElement('p')
-    this.tankElement.append(this.tankModeText)
+    this.append(this.tankModeText)
     
     this.attackText = document.createElement('p')
-    this.tankElement.append(this.attackText)
+    this.append(this.attackText)
     
     this.setTankStyles()
 
@@ -50,11 +42,11 @@ export default class SiegeTank {
   }
 
   private setTankStyles(): void {
-    this.tankElement.style.width = '100px'
-    this.tankElement.style.height = '100px'
-    this.tankElement.style.color = 'white'
-    this.tankElement.style.fontFamily = 'sans-serif'
-    this.tankElement.style.fontSize = '10px'
+    this.style.width = '100px'
+    this.style.height = '100px'
+    this.style.color = 'white'
+    this.style.fontFamily = 'sans-serif'
+    this.style.fontSize = '10px'
 
     this.tankModeText.style.paddingTop = '15px'
     this.tankModeText.style.textAlign = 'center'
@@ -86,10 +78,12 @@ export default class SiegeTank {
     this.tankModeText.innerHTML = this.state.mode
     this.attackText.innerHTML = ``
     anime({
-      targets: this.tankElement,
+      targets: this,
       borderRadius: this.state.radius,
       backgroundColor: this.state.color,
       duration: 2000
     })
   }
 }
+
+customElements.define('siege-tank', SiegeTank, {extends: 'div'})

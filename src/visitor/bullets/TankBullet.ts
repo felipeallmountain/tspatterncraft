@@ -9,7 +9,7 @@ export default class TankBullet extends Bullet implements IBullet {
 
   protected setBulletStyles(): void {
     super.setBulletStyles()
-    this.bulletElement.style.background = '#000'
+    this.style.background = '#000'
 
   }
 
@@ -21,3 +21,4 @@ export default class TankBullet extends Bullet implements IBullet {
     armored.hitPoints -= this.armoredDamage
   }
 }
+customElements.define('tank-bullet', TankBullet)

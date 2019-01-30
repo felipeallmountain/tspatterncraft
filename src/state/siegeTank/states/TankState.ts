@@ -28,7 +28,7 @@ export default class TankState implements ITankState {
 
   public move(x: number, y: number): void {
     anime({
-      targets: this.siegeTank.tankElement,
+      targets: this.siegeTank,
       translateX: x,
       translateY: y,
       duration: 1000,
@@ -43,8 +43,8 @@ export default class TankState implements ITankState {
     anime({
       targets: attackObj,
       value: this.damage,
-      easing: 'linear',
-      duration: 200,
+      easing: 'easeInQuart',
+      duration: 2000,
       update: () => this.siegeTank.attackText.innerHTML = `Attacking for ${Math.round(attackObj.value) }`
     })
   }

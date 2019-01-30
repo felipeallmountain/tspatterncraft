@@ -1,19 +1,18 @@
-export default class Bullet {
-  public bulletElement
-
+export default class Bullet extends HTMLElement {
   constructor() {
-    this.bulletElement = document.createElement('div')
+    super()
     const { innerWidth, innerHeight } = window
     
-    this.bulletElement.style.transform =
+    this.style.transform =
       `translate(${innerWidth / 2}px, ${innerHeight / 2}px)`
     this.setBulletStyles()
   }
 
   protected setBulletStyles(): void {
-    this.bulletElement.style.position = 'absolute'
-    this.bulletElement.style.width = '10px'
-    this.bulletElement.style.height = '10px'
-    this.bulletElement.style.borderRadius = '5px'
+    this.style.position = 'absolute'
+    this.style.width = '10px'
+    this.style.height = '10px'
+    this.style.borderRadius = '5px'
   }
 }
+customElements.define('bullet-element', Bullet)

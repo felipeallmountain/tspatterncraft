@@ -8,16 +8,16 @@ export default class LightUnit extends Unit implements IUnit {
   
   constructor(x: number, y: number) {
     super(x, y)
-    this.setHitpointsLabel()
   }
 
   protected setUnitStyles() {
     super.setUnitStyles()
-    this.unitElement.style.background = '#00ff00'
-    this.unitElement.style.borderRadius = '15px'
+    this.style.background = '#00ff00'
+    this.style.borderRadius = '15px'
   }
 
   public accept(bullet: IBullet) {
     bullet.visitLight(this)
   }
 }
+customElements.define('light-unit', LightUnit)
