@@ -1,16 +1,14 @@
 import IPattern from '../IPattern';
-import Viking from './vehicle/Viking';
-import Fly from './vehicle/moves/Fly';
-import Walk from './vehicle/moves/Walk';
-import Swim from './vehicle/moves/Swim';
-import Teleport from './vehicle/moves/Teleport';
+import { TweenMax, TimelineMax } from 'gsap';
 
 export default class StrategyPatternDemo implements IPattern {
   private appContainer: HTMLElement
-  private viking: Viking
+  private viking: HTMLDivElement
 
   private onMouseDownHandler: any
   private onKeyUpHandler: any
+
+  private isFlying = true
 
   constructor(appContainer: HTMLElement) {
     this.appContainer = appContainer
@@ -24,8 +22,17 @@ export default class StrategyPatternDemo implements IPattern {
   }
 
   private createVehicle() {
-    this.viking = new Viking()
-    this.viking.moveBehavior = new Fly()
+    this.viking = document.createElement('div')
+    this.viking.style.display = 'block'
+    const { innerWidth, innerHeight } = window
+    this.viking.style.width = '0'
+    this.viking.style.height = '0'
+    this.viking.style.borderLeft = '50px solid transparent'
+    this.viking.style.borderRight = '50px solid transparent'
+    this.viking.style.borderBottom = '80px solid orange'
+    
+    this.viking.style.transform =
+      `translate(${innerWidth / 2}px, ${innerHeight / 2}px)`
     this.appContainer.append(this.viking)
   }
 
@@ -33,17 +40,11 @@ export default class StrategyPatternDemo implements IPattern {
     const { keyCode } = evt
     switch (keyCode) {
       case 49:
-        this.viking.moveBehavior = new Fly()
-        break
+        this.isFlying = true
+      break
       case 50:
-        this.viking.moveBehavior = new Walk()
-        break
-      case 51:
-        this.viking.moveBehavior = new Swim()
-        break
-      case 52:
-        this.viking.moveBehavior = new Teleport()
-        break
+        this.isFlying = false
+      break
     }
   }
 
@@ -52,7 +53,21 @@ export default class StrategyPatternDemo implements IPattern {
     const tweenVars: any = {
       x: pageX, y: pageY
     }
-    this.viking.move(tweenVars)
+
+    if (this.isFlying) {
+      TweenMax.to(this.viking, 1, tweenVars)
+    } else {
+      TweenMax.to(this.viking, 3, tweenVars)
+
+    const tl = new TimelineMax()
+    tl
+      .to(this.viking, 0.5, {rotation: -20})
+      .to(this.viking, 0.5, {rotation: 20})
+      .to(this.viking, 0.5, {rotation: -20})
+      .to(this.viking, 0.5, {rotation: 20})
+      .to(this.viking, 0.5, {rotation: -20})
+      .to(this.viking, 0.5, {rotation: 0})
+    }
   }
 
   public removeEventListeners(): void {

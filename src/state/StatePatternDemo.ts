@@ -21,6 +21,7 @@ export default class StatePatternDemo implements IPattern {
 
   private createSiegeTank() {
     this.siegeTank = new SiegeTank()
+    this.siegeTank.toTankMode()
     this.appContainer.append(this.siegeTank)
   }
 
@@ -35,9 +36,6 @@ export default class StatePatternDemo implements IPattern {
         break
       case 50: // 2
         this.siegeTank.toSiegeMode()
-        break
-      case 51: // 3
-        this.siegeTank.toFlyMode()
         break
     }
 

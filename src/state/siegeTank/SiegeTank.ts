@@ -1,27 +1,16 @@
 import anime from 'animejs'
 
-import ITankState from './states/ITankState';
-import TankState from './states/TankState';
-import SiegeState from './states/SiegeState';
-import FlyState from './states/FlyState';
-
 export default class SiegeTank extends HTMLDivElement {
-
-  private _state: ITankState
-  public get state(): ITankState {
-    return this._state
-  }
-  public set state(value: ITankState) {
-    this._state = value
-    this.applyState()
-  }
 
   public tankModeText: HTMLParagraphElement
   public attackText: HTMLParagraphElement
 
-  public tankState: TankState
-  public siegeState: SiegeState
-  public flyState: FlyState
+  private damage: number
+  private mode: string
+  private color: string
+  private radius: [string, string]
+  private canMove: boolean
+
 
   constructor() {
     super()
@@ -33,15 +22,10 @@ export default class SiegeTank extends HTMLDivElement {
     this.append(this.attackText)
     
     this.setTankStyles()
-
-    this.tankState = new TankState(this)
-    this.siegeState = new SiegeState(this)
-    this.flyState = new FlyState(this)
-
-    this.state = this.tankState
   }
 
   private setTankStyles(): void {
+    this.style.display = 'block'
     this.style.width = '100px'
     this.style.height = '100px'
     this.style.color = 'white'
@@ -60,32 +44,56 @@ export default class SiegeTank extends HTMLDivElement {
   }
 
   public move(x: number, y: number): void {
-    this.state.move(x, y)
+    this.attackText.innerHTML = ``
+    if (this.canMove) {
+      anime({
+        targets: this,
+        translateX: x,
+        translateY: y,
+        duration: 1000,
+        easing: 'easeInOutExpo'
+      })
+    } else {
+      this.attackText.innerHTML = `Cannot Move`
+    }
+
   }
 
   public attack(): void {
-    this.state.attack()
+    this.attackText.innerHTML = `Attacking for ${this.damage}`
+    anime({
+      targets: this.attackText,
+      duration: 500,
+      easing: 'linear',
+      scale: [1, 2, 1] 
+    })
   }
 
   public toTankMode(): void {
-    this.state.toTankMode()
+    this.damage = 10
+    this.mode = 'Tank'
+    this.color = '#00F'
+    this.canMove = true
+    this.radius = ['0%', '0%']
+    this.applyState()
   }
 
   public toSiegeMode(): void {
-    this.state.toSiegeMode()
-  }
-
-  public toFlyMode(): void {
-    this.state.toFlyMode()
+    this.damage = 20
+    this.mode = 'Siege'
+    this.color = '#ff0000'
+    this.canMove = false
+    this.radius = ['0%', '50%']
+    this.applyState()
   }
 
   public applyState(): void {
-    this.tankModeText.innerHTML = this.state.mode
+    this.tankModeText.innerHTML = this.mode
     this.attackText.innerHTML = ``
     anime({
       targets: this,
-      borderRadius: this.state.radius,
-      backgroundColor: this.state.color,
+      borderRadius: this.radius,
+      backgroundColor: this.color,
       duration: 2000
     })
   }
