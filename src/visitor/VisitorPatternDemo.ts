@@ -7,6 +7,7 @@ import TankBullet from './bullets/TankBullet';
 import HealerBullet from './bullets/HealerBullet';
 import { TweenLite } from 'gsap';
 import Unit from './units/Unit';
+import Bullet from './bullets/Bullet';
 export default class VisitorPatternDemo implements IPattern {
   private appContainer: HTMLElement
 
@@ -78,14 +79,18 @@ export default class VisitorPatternDemo implements IPattern {
     TweenLite.to(bullet, speed, {
       x: pageX,
       y: pageY,
-      onComplete: this.onInfantryHit,
+      onComplete: this.onInfantryHit.bind(this),
       onCompleteParams: [target, bullet]
     })
   }
 
-  private onInfantryHit(infantryUnit: any, bullet: IBullet): void {
-    infantryUnit.accept(bullet)
-    TweenLite.to(bullet, 0.3, {autoAlpha: 0, scale: 2})
+  private onInfantryHit(infantryUnit: any, bullet): void {
+    infantryUnit.accept(bullet)    
+    TweenLite.to(bullet, 0.3, {
+      autoAlpha: 0,
+      scale: 2,
+      onComplete: () => this.appContainer.removeChild(bullet)
+    })
   }
 
   public removeEventListeners(): void {

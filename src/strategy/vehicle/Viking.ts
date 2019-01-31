@@ -3,9 +3,11 @@ import Vehicle from './Vehicle';
 export default class Viking extends Vehicle {
   constructor() {
     super()
-    this.style.background = 'orange'
-    this.style.width = '50px'
-    this.style.height = '50px'
+    this.style.width = '0'
+    this.style.height = '0'
+    this.style.borderLeft = '50px solid transparent'
+    this.style.borderRight = '50px solid transparent'
+    this.style.borderBottom = '80px solid orange'
   }
 }
 customElements.define('viking-div', Viking)

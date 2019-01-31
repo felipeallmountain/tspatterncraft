@@ -46,11 +46,15 @@ export default class SiegeTank extends HTMLDivElement {
     this.style.height = '100px'
     this.style.color = 'white'
     this.style.fontFamily = 'sans-serif'
-    this.style.fontSize = '10px'
+    this.style.fontSize = '13px'
 
-    this.tankModeText.style.paddingTop = '15px'
+    this.tankModeText.style.position = 'absolute'
     this.tankModeText.style.textAlign = 'center'
-
+    this.tankModeText.style.width = '100px'
+    
+    this.attackText.style.position = 'absolute'
+    this.attackText.style.width = '100px'
+    this.attackText.style.paddingTop = '15px'
     this.attackText.style.textAlign = 'center'
   }
 
