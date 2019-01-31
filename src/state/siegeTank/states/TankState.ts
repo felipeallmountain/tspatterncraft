@@ -43,8 +43,8 @@ export default class TankState implements ITankState {
     anime({
       targets: attackObj,
       value: this.damage,
-      easing: 'easeInQuart',
-      duration: 2000,
+      easing: 'linear',
+      duration: 1000,
       update: () => this.siegeTank.attackText.innerHTML = `Attacking for ${Math.round(attackObj.value) }`
     })
   }
