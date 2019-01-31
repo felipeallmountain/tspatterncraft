@@ -47,6 +47,7 @@ export default class SiegeTank extends HTMLDivElement {
     this.style.color = 'white'
     this.style.fontFamily = 'sans-serif'
     this.style.fontSize = '13px'
+    this.style.position = 'absolute'
 
     this.tankModeText.style.position = 'absolute'
     this.tankModeText.style.textAlign = 'center'

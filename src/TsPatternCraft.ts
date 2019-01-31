@@ -5,13 +5,16 @@ import VisitorPatternDemo from './visitor/VisitorPatternDemo';
 
 export default class TsPatternCraft {
   private appContainer: HTMLElement
-  private currentPattern: IPattern;
+  private currentPattern: IPattern
+  private title: HTMLHeadingElement
 
   private buttonClasses = ['Strategy', 'State', 'Visitor']
 
   constructor() {
-    this.appContainer = document.querySelector('#App')    
+    this.appContainer = document.querySelector('#App')
     this.currentPattern = new StrategyPatternDemo(this.appContainer)
+    this.title = document.querySelector('h1')
+    this.title.innerHTML = this.buttonClasses[0]
     this.createButtons()
   }
 
@@ -39,6 +42,7 @@ export default class TsPatternCraft {
     this.clearCanvas()
 
     const clickedButton = srcElement.getAttribute('id')
+    this.title.innerHTML = clickedButton
     switch(clickedButton) {
       case 'Strategy':
         this.currentPattern = new StrategyPatternDemo(this.appContainer)
