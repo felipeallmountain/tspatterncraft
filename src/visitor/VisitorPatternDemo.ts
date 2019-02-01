@@ -1,24 +1,20 @@
 import IPattern from '../IPattern';
-import IUnit from './units/IUnit';
 import ArmoredUnit from './units/ArmoredUnit';
 import LightUnit from './units/LightUnit';
-import IBullet from './bullets/IBullet';
 import TankBullet from './bullets/TankBullet';
-import HealerBullet from './bullets/HealerBullet';
 import { TweenLite } from 'gsap';
 import Unit from './units/Unit';
-import Bullet from './bullets/Bullet';
+
 export default class VisitorPatternDemo implements IPattern {
   private appContainer: HTMLElement
 
-  private isTankBullet = true
   private fieldUnits: Unit[] = []
   private readonly pairs = 7
 
   private onKeyUpHandler
   private onUnitClickHandler
   
-
+  // constructor
   constructor(appContainer: HTMLElement) {
     this.appContainer = appContainer
     
@@ -29,67 +25,47 @@ export default class VisitorPatternDemo implements IPattern {
     document.addEventListener('keyup', this.onKeyUpHandler)
   }
 
+  // create unit population
   private createUnits() {
-    const offset = 80
     let i: number
     for (i = 0; i < this.pairs; i++) {
-      // create light armor units
-      const xRandomArmored = Math.random() * (window.innerWidth - offset)
-      const yRandomArmored = Math.random() * (window.innerHeight - offset)
-      const armored: ArmoredUnit = new ArmoredUnit(xRandomArmored, yRandomArmored)
-      this.appContainer.append(armored)
-      armored.addEventListener('click', this.onUnitClickHandler)
-
       // create armored units
-      const xRandomLight = Math.random() * (window.innerWidth - offset)
-      const yRandomLight = Math.random() * (window.innerHeight - offset)
-      const light: LightUnit = new LightUnit(xRandomLight, yRandomLight)
-      this.appContainer.append(light)
-      light.addEventListener('click', this.onUnitClickHandler)
+      this.createSingleUnit()
 
-      this.fieldUnits = [...this.fieldUnits, armored, light]
+      // create light units
+      this.createSingleUnit(false)
+
     }    
   }
 
-  private onKeyUp(event: KeyboardEvent): void {
-    // TO-DO: REMEMBER STATE PATTERN!!
-    const { keyCode } = event
-    
-    switch(keyCode) {
-      case 49: // 1
-        this.isTankBullet = true
-      break
-      case 50: // 2
-        this.isTankBullet = false
-      break
-    }
+  // create light or armored unit
+  private createSingleUnit(armored = true): void {
+    const offset = 80
+    const xRandomLocation = Math.random() * (window.innerWidth - offset)
+    const yRandomLocation = Math.random() * (window.innerHeight - offset)
+    const unit = armored
+      ? new ArmoredUnit(xRandomLocation, yRandomLocation)
+      : new LightUnit(xRandomLocation, yRandomLocation)
+
+    unit.addEventListener('click', this.onUnitClickHandler)
+    this.fieldUnits = [...this.fieldUnits, unit]
+    this.appContainer.append(unit)
   }
 
+  // on key up events
+  private onKeyUp(event: KeyboardEvent): void {
+  }
+
+  // on unit click 
   private onUnitClick(event: MouseEvent): void {    
-    const { pageX, pageY, target } = event
-
-    // TO-DO: REMEMBER STATE PATTERN!!
-    const bullet = this.isTankBullet
-      ? new TankBullet()
-      : new HealerBullet()
-
-    const speed = this.isTankBullet ? 0.2 : 1
+    const { pageX, pageY } = event
+    const bullet = new TankBullet()
+    const speed = 0.2
 
     this.appContainer.append(bullet)
     TweenLite.to(bullet, speed, {
       x: pageX,
-      y: pageY,
-      onComplete: this.onInfantryHit.bind(this),
-      onCompleteParams: [target, bullet]
-    })
-  }
-
-  private onInfantryHit(infantryUnit: any, bullet): void {
-    infantryUnit.accept(bullet)    
-    TweenLite.to(bullet, 0.3, {
-      autoAlpha: 0,
-      scale: 2,
-      onComplete: () => this.appContainer.removeChild(bullet)
+      y: pageY
     })
   }
 

@@ -2,6 +2,7 @@ export default class Unit extends HTMLElement {
   private healthText
   private isAlive = true
 
+  // max health
   private _maxHitPoints = 0
   public get maxHitPoints(): number {
     return this._maxHitPoints
@@ -10,6 +11,7 @@ export default class Unit extends HTMLElement {
     this._maxHitPoints = value
   }
 
+  // current health
   private _hitPoints = 0
   public get hitPoints(): number {
     return this._hitPoints
