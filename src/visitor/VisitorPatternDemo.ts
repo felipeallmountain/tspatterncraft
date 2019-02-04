@@ -56,7 +56,7 @@ export default class VisitorPatternDemo implements IPattern {
   private onKeyUp(event: KeyboardEvent): void {
   }
 
-  // on unit click 
+  // Shoot units
   private onUnitClick(event: MouseEvent): void {    
     const { pageX, pageY } = event
     const bullet = new TankBullet()
