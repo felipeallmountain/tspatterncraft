@@ -1,4 +1,4 @@
-import anime from 'animejs'
+import {TweenMax} from 'gsap'
 
 import SiegeTank from '../SiegeTank';
 import ITankState from './ITankState';
@@ -32,12 +32,16 @@ export default class SiegeState implements ITankState {
 
   public attack(): void {
     this.siegeTank.attackText.innerHTML = `Attacking for ${this.damage}`
-    anime({
-      targets: this.siegeTank.attackText,
-      duration: 500,
-      easing: 'linear',
-      scale: [1, 2, 1] 
-    })
+    TweenMax.fromTo(this.siegeTank.attackText, 0.5, 
+      {
+        scale: 1
+      },
+      {
+        scale: 2,
+        yoyo: true,
+        repeat: 1
+      }
+    )
   }
 
   public toTankMode(): void {

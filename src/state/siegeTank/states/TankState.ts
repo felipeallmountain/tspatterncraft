@@ -1,4 +1,4 @@
-import anime from 'animejs'
+import {TweenMax} from 'gsap'
 
 import SiegeTank from '../SiegeTank';
 import ITankState from './ITankState';
@@ -27,25 +27,18 @@ export default class TankState implements ITankState {
   }
 
   public move(x: number, y: number): void {
-    anime({
-      targets: this.siegeTank,
-      translateX: x,
-      translateY: y,
-      duration: 1000,
-      easing: 'easeInOutExpo'
-    })
+    TweenMax.to(this.siegeTank, 1, {x, y})
   }
 
   public attack(): void {
     const attackObj = {
       value: 0
     }
-    anime({
-      targets: attackObj,
+    TweenMax.to(attackObj, 1, {
       value: this.damage,
-      easing: 'linear',
-      duration: 1000,
-      update: () => this.siegeTank.attackText.innerHTML = `Attacking for ${Math.round(attackObj.value) }`
+      onUpdate: () => {
+        this.siegeTank.attackText.innerHTML = `Attacking for ${Math.round(attackObj.value)}`
+      }
     })
   }
 

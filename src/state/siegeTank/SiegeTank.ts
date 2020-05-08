@@ -1,4 +1,4 @@
-import anime from 'animejs'
+import {TweenMax} from 'gsap'
 
 import ITankState from './states/ITankState';
 import TankState from './states/TankState';
@@ -82,11 +82,9 @@ export default class SiegeTank extends HTMLDivElement {
   public applyState(): void {
     this.tankModeText.innerHTML = this.state.mode
     this.attackText.innerHTML = ``
-    anime({
-      targets: this,
+    TweenMax.to(this, 2, {
       borderRadius: this.state.radius,
-      backgroundColor: this.state.color,
-      duration: 2000
+      backgroundColor: this.state.color
     })
   }
 }

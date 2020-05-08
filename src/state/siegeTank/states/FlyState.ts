@@ -1,4 +1,4 @@
-import anime from 'animejs'
+import {TweenMax} from 'gsap'
 
 import SiegeTank from '../SiegeTank';
 import ITankState from './ITankState';
@@ -27,20 +27,12 @@ export default class FlyState implements ITankState {
   }
 
   public move(x: number, y: number): void {
-    anime({
-      targets: this.siegeTank,
-      translateX: x,
-      translateY: y,
-      duration: 250,
-      easing: 'linear',
-      rotate: '1turn',
-      complete: () => {
-        anime.set(
-          this.siegeTank,
-          {
-            rotate: 0
-          }
-        )
+    TweenMax.to(this.siegeTank, 0.25, {
+      x,
+      y,
+      rotation: 360,
+      onComplete: () => {
+        TweenMax.set(this.siegeTank, {rotation: 0})
       }
     })
   }
